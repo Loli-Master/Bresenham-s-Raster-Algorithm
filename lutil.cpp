@@ -10,6 +10,7 @@ LTexture gCheckerBoardTexture;
 bool plotted[300][140];
 //biar gak update testure per frame
 bool updt=false;
+bool lined=false;
 //yepyepyep ini posisi x y pas teken mouse
 //yg belakangnya ada r berarti klik kanan
 //cdist = radius lingkaran
@@ -32,6 +33,7 @@ int dist(int x1, int y1, int x2, int y2) {
 
 //yep, kosongin canvas
 void resetPlot() {
+	system("CLS");
 	memset(plotted, false, sizeof(plotted));
 	updt=true;
 }
@@ -257,12 +259,30 @@ void pressedMouse(int button, int state, int x, int y) {
 			cdist = dist(presxr,presyr,relxr,relyr);
 			printf("circle edge x:%d y:%d\n",col,row);
 			bresenCirc(presxr,presyr,cdist);
-			bresenAlg(presxr,presyr,relxr,relyr);
+			if(lined)
+				bresenAlg(presxr,presyr,relxr,relyr);
 			printf("created a circle from x:%d y:%d with radius of %d\n",presx,presy,cdist);
 		}
 		//set biar diupdate
 		updt=true;
 	}
+}
+
+//simpan gambar :v
+void imgSave(int width,int height) {
+	//array byte (1 buat masing2 R, G, B)
+	BYTE* pixels = new BYTE[3 * width * height];
+
+	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+	// konversi ke freeimage format, trus disave
+	FIBITMAP* image = FreeImage_ConvertFromRawBits(pixels, width, height, 3 * width, 24, 0x0000FF, 0xFF0000, 0x00FF00, false);
+	FreeImage_Save(FIF_BMP, image, "save.bmp", 0);
+	printf("Image Saved!\n");
+
+	//biar hemat memori katanya :v
+	FreeImage_Unload(image);
+	delete [] pixels;
 }
 
 //ini callback buat klo ada tombol keyboard dipencet
@@ -272,5 +292,16 @@ void pressedKey(unsigned char key, int x, int y) {
 	} else if (key=='q'||key=='Q') {
 		glutLeaveMainLoop();
 		exit(0);
+	} else if (key=='s'||key=='S') {
+		imgSave(SCREEN_WIDTH,SCREEN_HEIGHT);
+	} else if (key=='t'||key=='T') {
+		if(lined){
+				lined=false;
+				printf("Circle now without line\n");
+		}
+		else {
+				lined=true;
+				printf("Circle now with line\n");
+		}
 	}
 }

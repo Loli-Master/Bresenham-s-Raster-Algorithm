@@ -32,6 +32,8 @@ void drawCirc(int xc, int yc, int x, int y);
 
 void bresenCirc(int xc, int yc, int r);
 
+void imgSave(int width,int height);
+
 void pressedKey(unsigned char key, int x, int y);
 
 #endif

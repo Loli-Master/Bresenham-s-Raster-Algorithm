@@ -1,6 +1,7 @@
 #include "LUtil.h"
 
 void runMainLoop( int val );
+void resizer(int width, int height);
 
 int main( int argc, char* args[] ) {
 	//inisialisasi FreeGLUT
@@ -29,6 +30,7 @@ int main( int argc, char* args[] ) {
 	glutDisplayFunc( render );
 	glutMouseFunc(pressedMouse);
 	glutKeyboardFunc(pressedKey);
+	glutReshapeFunc(resizer);
 	resetPlot();
 
 	//Set timer buat 60FPS (ini bukan game sih :v)
@@ -47,4 +49,8 @@ void runMainLoop( int val ) {
 
 	//timer lagi...
 	glutTimerFunc( 1000 / SCREEN_FPS, runMainLoop, val );
+}
+
+void resizer(int width, int height) {
+	glutReshapeWindow( SCREEN_WIDTH, SCREEN_HEIGHT);
 }
