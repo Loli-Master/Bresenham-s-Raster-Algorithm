@@ -7,3 +7,6 @@ r: reset kanvas<br>
 q: keluar<br>
 <br>
 simpel kan :v
+
+## Males compile?
+[Download di sini :v](https://github.com/Loli-Master/Bresenham-s-Raster-Algorithm/releases/)
