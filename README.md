@@ -10,3 +10,6 @@ simpel kan :v
 
 ## Males compile?
 [Download di sini :v](https://github.com/Loli-Master/Bresenham-s-Raster-Algorithm/releases/)
+
+## Minta dijelasin?
+buka aja file cppnya, males nulis di sini :v
