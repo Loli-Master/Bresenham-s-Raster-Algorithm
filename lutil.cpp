@@ -10,11 +10,29 @@ LTexture gCheckerBoardTexture;
 bool plotted[300][140];
 //biar gak update testure per frame
 bool updt=false;
+//lined circle toggle
 bool lined=false;
-//yepyepyep ini posisi x y pas teken mouse
-//yg belakangnya ada r berarti klik kanan
-//cdist = radius lingkaran
-int presx,presy,relx,rely,presxr,presyr,relxr,relyr,cdist;
+//poly mode
+bool polymodet = false;
+//started poly
+bool polystarted = false;
+
+//leftclick down pos
+int presx,presy;
+//leftclick up pos
+int relx,rely;
+//rightclick down pos
+int presxr,presyr;
+//rightclick up pos
+int relxr,relyr;
+//dist from down to up
+int cdist;
+
+//first pos of poly
+int fpolx, fpoly;
+
+//last pos of poly
+int lpolx, lpoly;
 
 //fungsi sgn (keknya ada di kalkulus I deh)
 int sgn(int a) {
@@ -94,7 +112,7 @@ void drawCirc(int xc, int yc, int x, int y) {
 		plotted[xc+y][yc-x]=true;
 	if(valid(xc-y,yc-x))
 		plotted[xc-y][yc-x]=true;
-	updt=true;
+	//updt=true;
 }
 
 // yep akhirnya
@@ -116,6 +134,26 @@ void bresenCirc(int xc, int yc, int r) {
 		} else
 			d = d + 4 * x + 6;
 		drawCirc(xc, yc, x, y);
+	}
+}
+
+//polymode continous draw line until right click
+void polymode(int x, int y, bool cls) {
+	if(cls&&polystarted) {
+		bresenAlg(lpolx,lpoly,fpolx,fpoly);
+		polystarted=false;
+	} else {
+		if(!polystarted) {
+			fpolx=x;
+			fpoly=y;
+			lpolx=x;
+			lpoly=y;
+			polystarted = true;
+		} else {
+			bresenAlg(lpolx,lpoly,x,y);
+			lpolx=x;
+			lpoly=y;
+		}
 	}
 }
 
@@ -237,23 +275,27 @@ void pressedMouse(int button, int state, int x, int y) {
 	//down klo masih diteken
 	//up klo dah selesai diteken
 	if(state==GLUT_DOWN) {
-		if(button==GLUT_LEFT_BUTTON) {
+		if(button==GLUT_LEFT_BUTTON&& !polymodet) {
 			presx = col;
 			presy = row;
 			printf("line start at x:%d y:%d\n",col,row);
-		} else if(button==GLUT_RIGHT_BUTTON) {
+		} else if(button==GLUT_RIGHT_BUTTON&& !polymodet) {
 			presxr = col;
 			presyr = row;
 			printf("circle center at x:%d y:%d\n",col,row);
+		} else if(button==GLUT_LEFT_BUTTON&& polymodet) {
+			polymode(col,row);
+		} else if(button==GLUT_RIGHT_BUTTON&& polymodet) {
+			polymode(col,row,true);
 		}
 	} else if(state==GLUT_UP) {
-		if(button==GLUT_LEFT_BUTTON) {
+		if(button==GLUT_LEFT_BUTTON&& !polymodet) {
 			relx = col;
 			rely = row;
 			printf("line end at x:%d y:%d\n",col,row);
 			bresenAlg(presx,presy,relx,rely);
 			printf("created a line from x1:%d y1:%d to x2:%d y2:%d\n",presx,presy,relx,rely);
-		} else if(button==GLUT_RIGHT_BUTTON) {
+		} else if(button==GLUT_RIGHT_BUTTON&& !polymodet) {
 			relxr = col;
 			relyr = row;
 			cdist = dist(presxr,presyr,relxr,relyr);
@@ -295,13 +337,24 @@ void pressedKey(unsigned char key, int x, int y) {
 	} else if (key=='s'||key=='S') {
 		imgSave(SCREEN_WIDTH,SCREEN_HEIGHT);
 	} else if (key=='t'||key=='T') {
-		if(lined){
-				lined=false;
-				printf("Circle now without line\n");
+		if(lined) {
+			lined=false;
+			printf("Circle now without line\n");
+		} else {
+			lined=true;
+			printf("Circle now with line\n");
 		}
-		else {
-				lined=true;
-				printf("Circle now with line\n");
+	} else if (key=='p'||key=='P') {
+		if(polymodet) {
+			if(polystarted){
+				polymode(lpolx,lpoly,true);
+				updt=true;
+			}
+			polymodet=false;
+			//printf("Circle now without line\n");
+		} else {
+			polymodet=true;
+			//printf("Circle now with line\n");
 		}
 	}
 }
