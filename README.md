@@ -3,13 +3,13 @@
 ## Yang dibutuhin (buat compile)
 - [FreeGLUT](http://freeglut.sourceforge.net/) (versi binary langsung: [Martin Payne's Windows binaries (MSVC and MinGW)](http://www.transmissionzero.co.uk/software/freeglut-devel/) )
 - [FreeImage](http://freeimage.sourceforge.net/)
-- [GLEW](http://glew.sourceforge.net/) (gak dipake tapi keinclude di lopengl.cpp :v)
 - [Windows](https://www.microsoft.com/en-us/windows/) (system("CLS"))
 - C++ IDE/compiler (pastinya :v)
 ## Cara make appnya<br>
 drag tombol mouse kiri: bikin garis<br>
 drag tombol mouse kanan: bikin lingkaran<br>
-t: toogle lingkaran nggak/pake garis jari-jari<br>
+t: toggle lingkaran nggak/pake garis jari-jari<br>
+p: toggle line/polygon mode<br>
 s: simpan (save.bmp)<br>
 r: reset kanvas<br>
 q: keluar<br>
