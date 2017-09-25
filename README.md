@@ -5,9 +5,14 @@
 - [FreeImage](http://freeimage.sourceforge.net/)
 - [Windows](https://www.microsoft.com/en-us/windows/) (system("CLS"))
 - C++ IDE/compiler (pastinya :v)
-## Cara make appnya<br>
-drag tombol mouse kiri: bikin garis<br>
-drag tombol mouse kanan: bikin lingkaran<br>
+## Cara make appnya
+### line mode:
+-drag tombol mouse kiri: bikin garis<br>
+-drag tombol mouse kanan: bikin lingkaran<br>
+### polygon mode:
+-klik tombol mouse kiri: bikin titik poligon<br>
+-klik tombol mouse kanan: tutup poligon<br>
+### keymap:
 t: toggle lingkaran nggak/pake garis jari-jari<br>
 p: toggle line/polygon mode<br>
 s: simpan (save.bmp)<br>
